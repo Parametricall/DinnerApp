@@ -21,7 +21,7 @@ public class AddDinnerOption extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        dinnerOption = findViewById(R.id.dinnerOptionEditText);
+        dinnerOption = findViewById(R.id.addNewDinnerOptionEditText);
         myDb = new Database(this);
     }
 
@@ -30,17 +30,5 @@ public class AddDinnerOption extends AppCompatActivity {
         myDb.insertData(newDinnerOption);
         Message.message(getApplicationContext(), "Insertion Successful");
         dinnerOption.setText("");
-    }
-
-    public String viewData(View view) {
-        String[] data = myDb.getData();
-
-        StringBuilder buffer = new StringBuilder();
-        for (String aData : data) {
-            buffer.append(aData).append("\n");
-        }
-
-        Message.message(this, buffer.toString());
-        return data[0];
     }
 }
