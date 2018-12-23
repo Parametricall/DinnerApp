@@ -19,26 +19,33 @@ public class Database {
         myhelper = new myDatabase(context);
     }
 
-    long insertData(String name) {
+    long insertData(String name, String ingredients) {
         SQLiteDatabase dbb = myhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(myDatabase.KEY_TITLE, name);
+        contentValues.put(myDatabase.KEY_INGREDIENTS, ingredients);
         long id = dbb.insert(myDatabase.TABLE_MEALS, null, contentValues);
         return id;
     }
 
     public String[] getData() {
         SQLiteDatabase db = myhelper.getWritableDatabase();
-        String[] columns = {myDatabase.KEY_ID, myDatabase.KEY_TITLE};
+        String[] columns = {myDatabase.KEY_ID, myDatabase.KEY_TITLE, myDatabase.KEY_INGREDIENTS};
         Cursor cursor = db.query(myDatabase.TABLE_MEALS, columns, null, null, null, null, null);
         String[] data = new String[cursor.getCount()];
         while (cursor.moveToNext()) {
             int cid = cursor.getInt(cursor.getColumnIndex(myDatabase.KEY_ID));
             String name = cursor.getString(cursor.getColumnIndex(myDatabase.KEY_TITLE));
-            data[cid - 1] = name;
+            String ingredients = cursor.getString(cursor.getColumnIndex(myDatabase.KEY_INGREDIENTS));
+            data[cid - 1] = name + ": " + ingredients;
         }
         cursor.close();
         return data;
+    }
+
+    public void clearDatabase() {
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+        db.delete(myDatabase.TABLE_MEALS, null, null);
     }
 
 
@@ -59,7 +66,7 @@ public class Database {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            String CREATE_FEEDS_TABLE = "CREATE TABLE " + TABLE_MEALS + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITLE + " TEXT," + KEY_INGREDIENTS + " TEXT" + ")";
+            String CREATE_FEEDS_TABLE = "CREATE TABLE " + TABLE_MEALS + " (" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_TITLE + " TEXT, " + KEY_INGREDIENTS + " TEXT" + ");";
             db.execSQL(CREATE_FEEDS_TABLE);
         }
 
