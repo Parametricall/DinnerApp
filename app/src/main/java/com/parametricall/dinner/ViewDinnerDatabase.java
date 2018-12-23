@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class ViewDinnerDatabase extends AppCompatActivity {
 
     private static final String TAG = "qqzzView Dinner Databa";
@@ -25,10 +27,11 @@ public class ViewDinnerDatabase extends AppCompatActivity {
 
 
     public void getAndSetData(View view) {
-        String[] data = myDb.getData();
+        ArrayList<String[]> data = myDb.getData();
         StringBuffer buffer = new StringBuffer();
-        for (String aData : data) {
-            buffer.append(aData).append("\n");
+        for (String[] aData : data) {
+            buffer.append(aData[0]).append(": ");
+            buffer.append(aData[1]).append("\n");
         }
         viewDbTextView.setText(buffer);
     }
