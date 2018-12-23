@@ -19,14 +19,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".AddDinnerOption">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.parametricall.dinner.MainActivity" />
         </activity>
-
         <activity android:name=".ViewDinnerDatabase">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.parametricall.dinner.MainActivity" />
+        </activity>
+        <activity android:name=".DinnerOption">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.parametricall.dinner.MainActivity" />

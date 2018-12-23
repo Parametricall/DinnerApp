@@ -6,4 +6,7 @@
     <string name="new_item_name">Insert new dinner option</string>
     <string name="new_ingredient">Insert new ingredient</string>
 
+    <string name="dinner_option_name">Dinner Name</string>
+    <string name="dinner_option_ingredients">Dinner Ingredients</string>
+
 </resources>
