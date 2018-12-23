@@ -9,4 +9,6 @@
     <string name="dinner_option_name">Dinner Name</string>
     <string name="dinner_option_ingredients">Dinner Ingredients</string>
 
+    <string name="empty_database">Empty Database</string>
+
 </resources>
