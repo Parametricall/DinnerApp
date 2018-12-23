@@ -26,11 +26,14 @@ public class ViewDinnerDatabase extends AppCompatActivity {
 
     public void getAndSetData(View view) {
         String[] data = myDb.getData();
-
         StringBuffer buffer = new StringBuffer();
         for (String aData : data) {
             buffer.append(aData).append("\n");
         }
         viewDbTextView.setText(buffer);
+    }
+
+    public void clearDatabse(View view) {
+        myDb.clearDatabase();
     }
 }

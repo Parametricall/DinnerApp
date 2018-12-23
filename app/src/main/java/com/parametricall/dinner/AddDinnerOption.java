@@ -11,7 +11,7 @@ public class AddDinnerOption extends AppCompatActivity {
 
     private static final String TAG = "qqzzAddDinnerOption";
 
-    private EditText dinnerOption;
+    private EditText dinnerOption, dinnerIngredient;
     Database myDb;
 
     @Override
@@ -22,13 +22,16 @@ public class AddDinnerOption extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dinnerOption = findViewById(R.id.addNewDinnerOptionEditText);
+        dinnerIngredient = findViewById(R.id.addNewIngredientEditText);
         myDb = new Database(this);
     }
 
     public void addMenuOption(View view) {
         String newDinnerOption = dinnerOption.getText().toString();
-        myDb.insertData(newDinnerOption);
+        String newDinnerIngredient = dinnerIngredient.getText().toString();
+        myDb.insertData(newDinnerOption, newDinnerIngredient);
         Message.message(getApplicationContext(), "Insertion Successful");
         dinnerOption.setText("");
+        dinnerIngredient.setText("");
     }
 }
