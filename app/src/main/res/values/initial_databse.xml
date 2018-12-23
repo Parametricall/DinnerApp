@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="dinner_name">
+        <item>Steak and Chips</item>
+        <item>Chicken Curry</item>
+        <item>Fish n Chips</item>
+    </string-array>
+
+    <string-array name="dinner_ingredients">
+        <item>Special Sauce</item>
+        <item>Rice</item>
+        <item>Bbq Sauce</item>
+    </string-array>
+</resources>
