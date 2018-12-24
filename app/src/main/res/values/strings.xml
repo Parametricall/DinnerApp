@@ -7,11 +7,23 @@
     <string name="new_item_name">Insert new dinner option</string>
     <string name="new_ingredient">Insert new ingredient</string>
     <string name="new_ingredient_help_text">Separate ingredients using comma.</string>
+    <string name="new_instructions">Insert new instructions</string>
+    <string name="new_instructions_help_text">Separate instructions using newline.</string>
 
     <string name="dinner_option_name">Dinner Name</string>
     <string name="dinner_option_ingredients">Dinner Ingredients</string>
 
     <string name="empty_database">Empty Database</string>
+
+    <string name="merry_xmas_mum">
+        Merry Christmas Mother.\n\n
+
+        I have been trying to get this working a bit better, but anyway here is that app I said I
+        would make a couple years back. Click the Whats for dinner button above and see how it
+        looks. Im really hoping it wont crash and burn.\n\n
+
+        Alex.
+    </string>
 
     <string name="update_dinner_option">Update</string>
     <string name="title_activity_scrolling_dinner_option">Dinner Option</string>

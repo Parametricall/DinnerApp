@@ -50,14 +50,14 @@ public class Database {
         String[] columns = {myDatabase.KEY_ID, myDatabase.KEY_TITLE, myDatabase.KEY_INGREDIENTS, myDatabase.KEY_INSTRUCTIONS};
         Log.d(TAG, "Creating Database constructor2" + columns);
         Cursor cursor = db.query(myDatabase.TABLE_MEALS, columns, null, null, null, null, null);
-        String[] data = new String[cursor.getCount()];
+//        String[] data = new String[cursor.getCount()];
         ArrayList<String[]> myArr = new ArrayList<>();
         while (cursor.moveToNext()) {
-            int cid = cursor.getInt(cursor.getColumnIndex(myDatabase.KEY_ID));
+//            int cid = cursor.getInt(cursor.getColumnIndex(myDatabase.KEY_ID));
             String name = cursor.getString(cursor.getColumnIndex(myDatabase.KEY_TITLE));
             String ingredients = cursor.getString(cursor.getColumnIndex(myDatabase.KEY_INGREDIENTS));
             String instructions = cursor.getString(cursor.getColumnIndex(myDatabase.KEY_INSTRUCTIONS));
-            data[cid - 1] = name + ": " + ingredients;
+//            data[cid - 1] = name + ": " + ingredients;
 
             String[] info = {name, ingredients, instructions};
             myArr.add(info);
@@ -74,7 +74,7 @@ public class Database {
 
     static class myDatabase extends SQLiteOpenHelper {
 
-        private static final int DATABASE_VERSION = 2;
+        private static final int DATABASE_VERSION = 4;
         private static final String DATABASE_NAME = "dinnerOptions";
 
         private static final String TABLE_MEALS = "meals";

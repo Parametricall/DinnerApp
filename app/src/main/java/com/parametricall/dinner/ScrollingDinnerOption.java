@@ -1,13 +1,25 @@
 package com.parametricall.dinner;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GestureDetectorCompat;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.BulletSpan;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,7 +28,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ScrollingDinnerOption extends AppCompatActivity {
+public class ScrollingDinnerOption extends AppCompatActivity{
 
     Database myDb;
     TextView dinnerOptionName, dinnerOptionIngredients, cookingInstructions;
@@ -34,19 +46,42 @@ public class ScrollingDinnerOption extends AppCompatActivity {
         dinnerOptionImage = findViewById(R.id.dinnerOptionImageView);
         cookingInstructions = findViewById(R.id.cookingInstructionsTextView);
 
-        Integer initialDbSize = myDb.getData().size();
-
-        final int random  = new Random().nextInt(initialDbSize);
-        tableID = random;
-
         ArrayList<String[]> data = myDb.getData();
         if (!data.isEmpty()) {
+            Integer initialDbSize = data.size();
+
+//            final int random  = new Random().nextInt(initialDbSize);
+//            tableID = random;
+
             String firstName = data.get(tableID)[0];
-            String ingredient = data.get(tableID)[1];
+            String ingredients = data.get(tableID)[1];
             String instructions = data.get(tableID)[2];
 
+            String[] ingredientArr = ingredients.split(", ");
+//            StringBuffer buffer = new StringBuffer();
+//
+//            String catString = "";
+//
+            SpannableString stringEnd = new SpannableString("");
+
+            SpannableStringBuilder stringBuild = new SpannableStringBuilder();
+            for (String ingredient : ingredientArr) {
+//                buffer.append(ingredient + "\n");
+//
+//                catString = catString.concat(ingredient + "\n");
+//
+                SpannableString string = new SpannableString(ingredient + "\n");
+                string.setSpan(new BulletSpan(40, getResources().getColor(R.color.colorAccent)), 0, ingredient.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+                stringBuild.append(string);
+
+            }
+
+            dinnerOptionIngredients.setText(stringBuild);
+
             dinnerOptionName.setText(firstName);
-            dinnerOptionIngredients.setText(ingredient);
+//            dinnerOptionIngredients.setText(ingredient);
             cookingInstructions.setText(instructions);
             if (firstName.equals("Steak and Chips")) {
                 dinnerOptionImage.setImageResource(R.drawable.steak_and_chips_edit);
@@ -88,6 +123,7 @@ public class ScrollingDinnerOption extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+//    @RequiresApi(api = Build.VERSION_CODES.P)
     public void onClickNextDinner(View view) {
         dinnerOptionImage.setVisibility(View.VISIBLE);
         tableID++;
@@ -102,15 +138,39 @@ public class ScrollingDinnerOption extends AppCompatActivity {
             String ingredients = data.get(tableID)[1];
             String instructions = data.get(tableID)[2];
 
-            String[] ingredientArr = ingredients.split(",");
-            StringBuffer buffer = new StringBuffer();
+            String[] ingredientArr = ingredients.split(", ");
+//            StringBuffer buffer = new StringBuffer();
+//
+//            String catString = "";
+//
+            SpannableString stringEnd = new SpannableString("");
+
+            SpannableStringBuilder stringBuild = new SpannableStringBuilder();
             for (String ingredient : ingredientArr) {
-                buffer.append(ingredient + "\n");
+//                buffer.append(ingredient + "\n");
+//
+//                catString = catString.concat(ingredient + "\n");
+//
+                SpannableString string = new SpannableString(ingredient + "\n");
+                string.setSpan(new BulletSpan(40, getResources().getColor(R.color.colorAccent)), 0, ingredient.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+                stringBuild.append(string);
+
             }
 
+            dinnerOptionIngredients.setText(stringBuild);
+
+//            SpannableString string = new SpannableString(catString);
+//            string.setSpan(new BulletSpan(), 1, 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//
+//            SpannableString string = new SpannableString("hello");
+//
+//            string.setSpan(new BulletSpan(), 10, 22, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            dinnerOptionIngredients.setText(string);
 
             dinnerOptionName.setText(firstName);
-            dinnerOptionIngredients.setText(buffer);
+
             cookingInstructions.setText(instructions);
 
             if (firstName.equals("Steak and Chips")) {
@@ -129,6 +189,61 @@ public class ScrollingDinnerOption extends AppCompatActivity {
     }
 
     public void onClickPrevDinner(View view) {
+        dinnerOptionImage.setVisibility(View.VISIBLE);
+        tableID--;
+        ArrayList<String[]> data = myDb.getData();
+        if (tableID < 0) {
+            tableID = data.size() - 1;
+        }
+        if (!data.isEmpty()) {
+            String firstName = data.get(tableID)[0];
+            String ingredients = data.get(tableID)[1];
+            String instructions = data.get(tableID)[2];
+
+            String[] ingredientArr = ingredients.split(", ");
+//            StringBuffer buffer = new StringBuffer();
+//
+//            String catString = "";
+//
+            SpannableString stringEnd = new SpannableString("");
+
+            SpannableStringBuilder stringBuild = new SpannableStringBuilder();
+            for (String ingredient : ingredientArr) {
+//                buffer.append(ingredient + "\n");
+//
+//                catString = catString.concat(ingredient + "\n");
+//
+                SpannableString string = new SpannableString(ingredient + "\n");
+                string.setSpan(new BulletSpan(40, getResources().getColor(R.color.colorAccent)), 0, ingredient.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+                stringBuild.append(string);
+
+            }
+
+            dinnerOptionIngredients.setText(stringBuild);
+
+            dinnerOptionName.setText(firstName);
+//            dinnerOptionIngredients.setText(Ingredient);
+            cookingInstructions.setText(instructions);
+
+            if (firstName.equals("Steak and Chips")) {
+                dinnerOptionImage.setImageResource(R.drawable.steak_and_chips_edit);
+            } else if (firstName.equals("Chicken Curry")) {
+                dinnerOptionImage.setImageResource(R.drawable.chicken_curry);
+            } else if (firstName.equals("Fish n Chips")) {
+                dinnerOptionImage.setImageResource(R.drawable.fish_and_chips);
+            } else {
+                dinnerOptionImage.setVisibility(view.INVISIBLE);
+            }
+        } else {
+            dinnerOptionName.setText(getString(R.string.empty_database));
+            dinnerOptionIngredients.setText("");
+        }
+    }
+
+    public void onSwipeLeftNextDinner() {
+        dinnerOptionImage.setVisibility(View.VISIBLE);
         tableID--;
         ArrayList<String[]> data = myDb.getData();
         if (tableID < 0) {
@@ -150,7 +265,7 @@ public class ScrollingDinnerOption extends AppCompatActivity {
             } else if (firstName.equals("Fish n Chips")) {
                 dinnerOptionImage.setImageResource(R.drawable.fish_and_chips);
             } else {
-                dinnerOptionImage.setVisibility(view.INVISIBLE);
+                dinnerOptionImage.setVisibility(View.INVISIBLE);
             }
         } else {
             dinnerOptionName.setText(getString(R.string.empty_database));
