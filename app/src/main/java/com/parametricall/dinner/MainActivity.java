@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 //        String[] data = myDb.getData();
 //        dinnerChoiceTextView.setText(data[0]);
 
-        Intent intent = new Intent(this, DinnerOption.class);
+        Intent intent = new Intent(this, ScrollingDinnerOption.class);
         startActivity(intent);
     }
 }
