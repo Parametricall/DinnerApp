@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.parametricall.dinner">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,27 +17,58 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.parametricall.dinner.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddDinnerOption">
+        <activity
+            android:name=".AddDinnerOption"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.parametricall.dinner.MainActivity" />
         </activity>
-        <activity android:name=".ViewDinnerDatabase">
+        <activity
+            android:name=".ViewDinnerDatabase"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.parametricall.dinner.MainActivity" />
         </activity>
-        <activity android:name=".DinnerOption">
+        <activity
+            android:name=".DinnerOption"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.parametricall.dinner.MainActivity" />
+        </activity>
+        <activity android:name=".UpdateDinnerOption">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.parametricall.dinner.DinnerOption" />
+        </activity>
+        <activity
+            android:name=".ScrollingDinnerOption"
+            android:label="@string/title_activity_scrolling_dinner_option"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.parametricall.dinner.MainActivity" />

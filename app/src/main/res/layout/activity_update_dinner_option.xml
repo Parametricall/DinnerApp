@@ -4,21 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddDinnerOption">
+    tools:context=".UpdateDinnerOption">
 
     <Button
-        android:id="@+id/addNewDinnerButton"
+        android:id="@+id/updateDinnerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/add_user"
+        android:text="@string/update_dinner_option"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:onClick="addMenuOption"/>
+        />
 
     <EditText
-        android:id="@+id/addNewDinnerOptionEditText"
+        android:id="@+id/updatedDinnerOptionEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -33,7 +33,7 @@
         tools:targetApi="o" />
 
     <EditText
-        android:id="@+id/addNewIngredientEditText"
+        android:id="@+id/updatedIngredientEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -42,8 +42,8 @@
         android:hint="@string/new_ingredient"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/addNewDinnerOptionEditText"
-        app:layout_constraintTop_toBottomOf="@+id/addNewDinnerOptionEditText"
+        app:layout_constraintStart_toStartOf="@+id/updatedDinnerOptionEditText"
+        app:layout_constraintTop_toBottomOf="@+id/updatedDinnerOptionEditText"
         tools:targetApi="o" />
 
     <ImageView
@@ -51,7 +51,6 @@
         android:layout_width="0dp"
         android:layout_height="129dp"
         android:layout_marginTop="16dp"
-        android:onClick="takePicture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -63,19 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="@string/new_ingredient_help_text"
-        app:layout_constraintStart_toStartOf="@+id/addNewIngredientEditText"
-        app:layout_constraintTop_toBottomOf="@+id/addNewIngredientEditText" />
-
-    <EditText
-        android:id="@+id/newDinnerInstructionsEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintStart_toStartOf="@+id/addNewDinnerOptionEditText"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="@+id/updatedIngredientEditText"
+        app:layout_constraintTop_toBottomOf="@+id/updatedIngredientEditText" />
 
 </android.support.constraint.ConstraintLayout>

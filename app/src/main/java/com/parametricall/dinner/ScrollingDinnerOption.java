@@ -1,43 +1,62 @@
 package com.parametricall.dinner;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
-public class DinnerOption extends AppCompatActivity {
+public class ScrollingDinnerOption extends AppCompatActivity {
 
     Database myDb;
-    TextView dinnerOptionName, dinnerOptionIngredients;
+    TextView dinnerOptionName, dinnerOptionIngredients, cookingInstructions;
     ImageView dinnerOptionImage;
     Integer tableID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dinner_option);
+        setContentView(R.layout.activity_scrolling_dinner_option);
 
         myDb = new Database(getApplicationContext());
         dinnerOptionName = findViewById(R.id.dinnerOptionNameTextView);
         dinnerOptionIngredients = findViewById(R.id.dinnerOptionIngredientsTextView);
         dinnerOptionImage = findViewById(R.id.dinnerOptionImageView);
+        cookingInstructions = findViewById(R.id.cookingInstructionsTextView);
 
         Integer initialDbSize = myDb.getData().size();
+
+        final int random  = new Random().nextInt(initialDbSize);
+        tableID = random;
 
         ArrayList<String[]> data = myDb.getData();
         if (!data.isEmpty()) {
             String firstName = data.get(tableID)[0];
-            String Ingredient = data.get(tableID)[1];
+            String ingredient = data.get(tableID)[1];
+            String instructions = data.get(tableID)[2];
 
             dinnerOptionName.setText(firstName);
-            dinnerOptionIngredients.setText(Ingredient);
-            dinnerOptionImage.setImageResource(R.drawable.steak_and_chips_edit);
+            dinnerOptionIngredients.setText(ingredient);
+            cookingInstructions.setText(instructions);
+            if (firstName.equals("Steak and Chips")) {
+                dinnerOptionImage.setImageResource(R.drawable.steak_and_chips_edit);
+            } else if (firstName.equals("Chicken Curry")) {
+                dinnerOptionImage.setImageResource(R.drawable.chicken_curry);
+            } else if (firstName.equals("Fish n Chips")) {
+                dinnerOptionImage.setImageResource(R.drawable.fish_and_chips);
+            } else {
+                dinnerOptionImage.setVisibility(View.INVISIBLE);
+            }
         } else {
             dinnerOptionName.setText(getString(R.string.empty_database));
         }
@@ -81,6 +100,7 @@ public class DinnerOption extends AppCompatActivity {
         if (!data.isEmpty() && data.size() > 1) {
             String firstName = data.get(tableID)[0];
             String ingredients = data.get(tableID)[1];
+            String instructions = data.get(tableID)[2];
 
             String[] ingredientArr = ingredients.split(",");
             StringBuffer buffer = new StringBuffer();
@@ -91,6 +111,7 @@ public class DinnerOption extends AppCompatActivity {
 
             dinnerOptionName.setText(firstName);
             dinnerOptionIngredients.setText(buffer);
+            cookingInstructions.setText(instructions);
 
             if (firstName.equals("Steak and Chips")) {
                 dinnerOptionImage.setImageResource(R.drawable.steak_and_chips_edit);
@@ -116,9 +137,12 @@ public class DinnerOption extends AppCompatActivity {
         if (!data.isEmpty()) {
             String firstName = data.get(tableID)[0];
             String Ingredient = data.get(tableID)[1];
+            String instructions = data.get(tableID)[2];
 
             dinnerOptionName.setText(firstName);
             dinnerOptionIngredients.setText(Ingredient);
+            cookingInstructions.setText(instructions);
+
             if (firstName.equals("Steak and Chips")) {
                 dinnerOptionImage.setImageResource(R.drawable.steak_and_chips_edit);
             } else if (firstName.equals("Chicken Curry")) {
