@@ -11,4 +11,10 @@
         <item>Rice</item>
         <item>Bbq Sauce</item>
     </string-array>
+
+    <array name="list_images">
+        <item>@drawable/steak_and_chips_edit</item>
+        <item>@drawable/chicken_curry</item>
+        <item>@drawable/fish_and_chips</item>
+    </array>
 </resources>

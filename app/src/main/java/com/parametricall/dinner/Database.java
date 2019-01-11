@@ -5,82 +5,84 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
 import android.util.Log;
 
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 
+class Database {
 
-public class Database {
-
-    private static final String TAG = "qqzzDatabase";
-
-    private myDatabase myhelper;
+    private static final String TAG = Database.class.getName();
+    private myDatabase myHelper;
 
     Database(Context context) {
         Log.d(TAG, "Creating Database constructor");
-        myhelper = new myDatabase(context);
+        myHelper = new myDatabase(context);
     }
 
-    long insertData(String name, String ingredients, String instructions) {
-        SQLiteDatabase dbb = myhelper.getWritableDatabase();
+    void insertData(String name, String ingredients, String instructions) {
+        SQLiteDatabase db = myHelper.getWritableDatabase();
+
         ContentValues contentValues = new ContentValues();
-        contentValues.put(myDatabase.KEY_TITLE, name);
+        contentValues.put(myDatabase.KEY_NAME, name);
         contentValues.put(myDatabase.KEY_INGREDIENTS, ingredients);
         contentValues.put(myDatabase.KEY_INSTRUCTIONS, instructions);
-        long id = dbb.insert(myDatabase.TABLE_MEALS, null, contentValues);
-        return id;
+
+        db.insert(myDatabase.TABLE_NAME, null, contentValues);
     }
 
-    public void insertImage(int id, Bitmap img) {
-        byte[] data = getBitmapAsByteArray(img);
+    Cursor getData() {
+        SQLiteDatabase db = myHelper.getWritableDatabase();
 
+        String tableName = myDatabase.TABLE_NAME;
+        String[] columns = {
+                myDatabase.KEY_ID,
+                myDatabase.KEY_NAME,
+                myDatabase.KEY_INGREDIENTS,
+                myDatabase.KEY_INSTRUCTIONS
+        };
+
+        return db.query(
+                tableName,
+                columns,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
     }
 
-    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, outputStream);
-        return outputStream.toByteArray();
+    void delete(String name) {
+        SQLiteDatabase db = myHelper.getWritableDatabase();
+        String[] whereArgs = {name};
+        db.delete(myDatabase.TABLE_NAME, myDatabase.KEY_NAME + " = ?", whereArgs);
     }
 
-    public ArrayList<String[]> getData() {
-        SQLiteDatabase db = myhelper.getWritableDatabase();
-        Log.d(TAG, "Creating Database constructor1");
-        String[] columns = {myDatabase.KEY_ID, myDatabase.KEY_TITLE, myDatabase.KEY_INGREDIENTS, myDatabase.KEY_INSTRUCTIONS};
-        Log.d(TAG, "Creating Database constructor2" + columns);
-        Cursor cursor = db.query(myDatabase.TABLE_MEALS, columns, null, null, null, null, null);
-//        String[] data = new String[cursor.getCount()];
-        ArrayList<String[]> myArr = new ArrayList<>();
-        while (cursor.moveToNext()) {
-//            int cid = cursor.getInt(cursor.getColumnIndex(myDatabase.KEY_ID));
-            String name = cursor.getString(cursor.getColumnIndex(myDatabase.KEY_TITLE));
-            String ingredients = cursor.getString(cursor.getColumnIndex(myDatabase.KEY_INGREDIENTS));
-            String instructions = cursor.getString(cursor.getColumnIndex(myDatabase.KEY_INSTRUCTIONS));
-//            data[cid - 1] = name + ": " + ingredients;
-
-            String[] info = {name, ingredients, instructions};
-            myArr.add(info);
-        }
-        cursor.close();
-        return myArr;
+    void clearDatabase() {
+        SQLiteDatabase db = myHelper.getWritableDatabase();
+        db.delete(myDatabase.TABLE_NAME, null, null);
     }
 
-    public void clearDatabase() {
-        SQLiteDatabase db = myhelper.getWritableDatabase();
-        db.delete(myDatabase.TABLE_MEALS, null, null);
-    }
+    Cursor getDinnerFromName(String name) {
+        SQLiteDatabase db = myHelper.getReadableDatabase();
 
+        String table_name = myDatabase.TABLE_NAME;
+//        String[] column = {myDatabase.KEY_NAME};
+        String condition_column_name = myDatabase.KEY_NAME;
+        String[] whereArgs = {name};
+
+        String query = "SELECT * FROM " + table_name + " WHERE " + condition_column_name + " = ?";
+        return db.rawQuery(query, whereArgs, null);
+    }
 
     static class myDatabase extends SQLiteOpenHelper {
 
-        private static final int DATABASE_VERSION = 4;
+        private static final int DATABASE_VERSION = 5;
         private static final String DATABASE_NAME = "dinnerOptions";
 
-        private static final String TABLE_MEALS = "meals";
+        private static final String TABLE_NAME = "meals";
 
-        private static final String KEY_ID = "id";
-        private static final String KEY_TITLE = "title";
+        private static final String KEY_ID = "_id";
+        private static final String KEY_NAME = "title";
         private static final String KEY_INGREDIENTS = "ingredients";
         private static final String KEY_INSTRUCTIONS = "instructions";
 
@@ -90,9 +92,9 @@ public class Database {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            String CREATE_FEEDS_TABLE = "CREATE TABLE " + TABLE_MEALS + " (" +
+            String CREATE_FEEDS_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
                     KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    KEY_TITLE + " TEXT, " +
+                    KEY_NAME + " TEXT, " +
                     KEY_INGREDIENTS + " TEXT, " +
                     KEY_INSTRUCTIONS + " TEXT" +
                     ");";
@@ -101,10 +103,42 @@ public class Database {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            db.execSQL("DROP TABLE IF EXISTS " + TABLE_MEALS);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
 
             //create table again
             onCreate(db);
         }
     }
 }
+
+
+//    public void insertImage(int id, Bitmap img) {
+//        byte[] data = getBitmapAsByteArray(img);
+//    }
+//
+//    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
+//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, outputStream);
+//        return outputStream.toByteArray();
+//    }
+
+//    public ArrayList<String[]> getData() {
+//        SQLiteDatabase db = myHelper.getWritableDatabase();
+//
+//        String tableName = myDatabase.TABLE_NAME;
+//        String[] columns = {myDatabase.KEY_ID, myDatabase.KEY_NAME, myDatabase.KEY_INGREDIENTS, myDatabase.KEY_INSTRUCTIONS};
+//
+//        Cursor cursor = db.query(tableName, columns, null, null, null, null, null);
+//
+//        ArrayList<String[]> myArr = new ArrayList<>();
+//        while (cursor.moveToNext()) {
+//            String name = cursor.getString(cursor.getColumnIndex(myDatabase.KEY_NAME));
+//            String ingredients = cursor.getString(cursor.getColumnIndex(myDatabase.KEY_INGREDIENTS));
+//            String instructions = cursor.getString(cursor.getColumnIndex(myDatabase.KEY_INSTRUCTIONS));
+//
+//            String[] info = {name, ingredients, instructions};
+//            myArr.add(info);
+//        }
+//        cursor.close();
+//        return myArr;
+//    }

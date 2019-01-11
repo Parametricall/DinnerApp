@@ -40,34 +40,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddDinnerOption"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.parametricall.dinner.MainActivity" />
-        </activity>
-        <activity
             android:name=".ViewDinnerDatabase"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.parametricall.dinner.MainActivity" />
         </activity>
-        <activity
-            android:name=".DinnerOption"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.parametricall.dinner.MainActivity" />
-        </activity>
         <activity android:name=".UpdateDinnerOption">
+            android:parentActivityName".DinnerOption">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.parametricall.dinner.DinnerOption" />
         </activity>
         <activity
-            android:name=".ScrollingDinnerOption"
+            android:name=".DinnerOption"
             android:label="@string/title_activity_scrolling_dinner_option"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.parametricall.dinner.MainActivity" />
+        </activity>
+        <activity
+            android:name=".AddDinnerOption"
+            android:label="@string/title_activity_add_dinner_option"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
