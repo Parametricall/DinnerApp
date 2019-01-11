@@ -1,42 +1,55 @@
 package com.parametricall.dinner;
 
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 public class ViewDinnerDatabase extends AppCompatActivity {
-
-    private static final String TAG = "qqzzView Dinner Databa";
-
     TextView viewDbTextView;
     Database myDb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String TAG = this.getClass().getName();
+        Log.d(TAG, "Creating ViewDinnerDatabase");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_dinner_database);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        viewDbTextView = (TextView) findViewById(R.id.viewDbTextView);
         myDb = new Database(this);
+        viewDbTextView = findViewById(R.id.viewDbTextView);
     }
 
 
     public void getAndSetData(View view) {
-        ArrayList<String[]> data = myDb.getData();
-        StringBuffer buffer = new StringBuffer();
-        for (String[] aData : data) {
-            buffer.append(aData[0]).append(": ");
-            buffer.append(aData[1]).append("\n");
+
+        String name = "Empty Database";
+        StringBuilder buffer = new StringBuilder();
+
+        Cursor cursor = myDb.getData();
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                if (cursor.getType(1) == cursor.FIELD_TYPE_STRING) {
+                    name = cursor.getString(1);
+                    buffer.append(name);
+                    buffer.append("\n");
+                }
+                cursor.moveToNext();
+            }
+            viewDbTextView.setText(buffer);
+        } else {
+            viewDbTextView.setText(name);
         }
-        viewDbTextView.setText(buffer);
     }
 
-    public void clearDatabse(View view) {
+    public void clearDatabase(View view) {
         myDb.clearDatabase();
     }
 }
