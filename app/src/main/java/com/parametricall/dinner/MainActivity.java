@@ -12,11 +12,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Random;
+
 
 public class MainActivity extends AppCompatActivity {
     Database myDb;
     Cursor dbCursor;
     Button randomDinnerButton, whatsForDinnerButton;
+    Random rand;
+    Integer[] randomArr;
+    int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        rand = new Random();
 
         myDb = new Database(this);
         whatsForDinnerButton = findViewById(R.id.whatsForDinnerButton);
@@ -57,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+        } else {
+            randomArr = new Integer[dbCursor.getCount()];
+            for (int i = 0; i < dbCursor.getCount(); i++) {
+                randomArr[i] = i;
+            }
+
+            Collections.shuffle(Arrays.asList(randomArr));
         }
     }
 
@@ -87,9 +104,15 @@ public class MainActivity extends AppCompatActivity {
     public void getDinnerOption(View view) {
         String dinner;
         randomDinnerButton.setEnabled(true);
+        int number = 0;
 
-        RandomDinnerSelector rand = new RandomDinnerSelector();
-        int number = rand.generateRandomNumber(dbCursor.getCount());
+        if (randomArr.length > 0) {
+            if (index == randomArr.length) {
+                index = 0;
+            }
+            number = randomArr[index];
+            index++;
+        }
 
         if (number <= dbCursor.getCount()) {
             dbCursor.moveToPosition(number);
